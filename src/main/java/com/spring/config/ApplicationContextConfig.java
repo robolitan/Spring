@@ -20,12 +20,9 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @ComponentScan("com.spring*")
 @EnableTransactionManagement
-// Load to Environment.
 @PropertySource("classpath:db.property")
 public class ApplicationContextConfig {
 
-    // The Environment class serves as the property holder
-    // and stores all the properties loaded by the @PropertySource
     @Autowired
     private Environment env;
 
@@ -53,20 +50,17 @@ public class ApplicationContextConfig {
     @Bean(name = "sessionFactory")
     public SessionFactory getSessionFactory(DataSource dataSource) throws Exception {
         Properties properties = new Properties();
-
-        // See: ds-hibernate-cfg.properties
         properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
         properties.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
         properties.put("current_session_context_class", env.getProperty("current_session_context_class"));
         properties.put("hibernate.hbm2ddl.auto",env.getProperty("hibernate.hbm2ddl.auto"));
-
 
         LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
         factoryBean.setPackagesToScan(new String[] { "com.spring.models" });
         factoryBean.setDataSource(dataSource);
         factoryBean.setHibernateProperties(properties);
         factoryBean.afterPropertiesSet();
-        //
+
         SessionFactory sf = factoryBean.getObject();
         return sf;
     }

@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Add user</title>
-    <link rel="stylesheet" href="css/add_page.css">
+    <link rel="stylesheet" href="/css/add_page.css">
     <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Questrial&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Assistant&display=swap" rel="stylesheet">
