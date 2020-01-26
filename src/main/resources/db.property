@@ -1,0 +1,10 @@
+hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+hibernate.show_sql=true
+hibernate.hbm2ddl.auto=update
+current_session_context_class=thread
+
+#MySQL property
+db.driver=com.mysql.cj.jdbc.Driver
+db.url=jdbc:mysql://localhost:1111/db_spring_mvc?serverTimezone=UTC
+db.username=root
+db.password=admin
