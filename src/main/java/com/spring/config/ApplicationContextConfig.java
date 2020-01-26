@@ -2,6 +2,7 @@ package com.spring.config;
 
 import java.util.Properties;
 import javax.sql.DataSource;
+
 import com.spring.dao.UserDao;
 import com.spring.dao.UserDaoImpl;
 import org.hibernate.SessionFactory;
@@ -53,10 +54,10 @@ public class ApplicationContextConfig {
         properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
         properties.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
         properties.put("current_session_context_class", env.getProperty("current_session_context_class"));
-        properties.put("hibernate.hbm2ddl.auto",env.getProperty("hibernate.hbm2ddl.auto"));
+        properties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
 
         LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
-        factoryBean.setPackagesToScan(new String[] { "com.spring.models" });
+        factoryBean.setPackagesToScan(new String[]{"com.spring.models"});
         factoryBean.setDataSource(dataSource);
         factoryBean.setHibernateProperties(properties);
         factoryBean.afterPropertiesSet();

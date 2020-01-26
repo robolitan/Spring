@@ -37,7 +37,7 @@ public class User {
         this.password = password;
     }
 
-    public User(int id, String login, String firstName, String lastName,  String password, String birthday) {
+    public User(int id, String login, String firstName, String lastName, String password, String birthday) {
         this(login, firstName, lastName, password, birthday);
         this.id = id;
     }

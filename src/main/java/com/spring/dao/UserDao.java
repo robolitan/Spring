@@ -1,6 +1,7 @@
 package com.spring.dao;
 
 import com.spring.models.User;
+
 import java.util.List;
 
 public interface UserDao {

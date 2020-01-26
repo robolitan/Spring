@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
 @Repository
@@ -23,7 +24,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void delete(int id) {
         Session session = sessionFactory.getCurrentSession();
-        session.delete(session.get(User.class,id));
+        session.delete(session.get(User.class, id));
     }
 
     @Override

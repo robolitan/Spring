@@ -14,7 +14,7 @@ public class IndexController {
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public String getIndex(Model model) {
-        model.addAttribute("usersList",userService.getAll());
+        model.addAttribute("usersList", userService.getAll());
         return "index";
     }
 }

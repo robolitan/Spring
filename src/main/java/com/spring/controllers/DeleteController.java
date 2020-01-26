@@ -13,7 +13,7 @@ public class DeleteController {
     UserService userService;
 
     @PostMapping("/delete/{id}")
-    public String deleteUser(@PathVariable int id){
+    public String deleteUser(@PathVariable int id) {
         userService.deleteUser(id);
         return "redirect:/all";
     }
