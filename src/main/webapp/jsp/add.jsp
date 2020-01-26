@@ -39,10 +39,8 @@
             <tr>
                 <td>Birthday:</td>
                 <td>
-                    <input type="text" name="birthday" placeholder="0000-00-00"
-                           pattern="([0-2]{1}[0-9]{1}|[3]{1}[01]{1}).<%--day--%>
-                           ([0]{1}[1-9]{1}|[1]{1}[12]{1}).<%--month--%>
-                           [12]{1}[0-9]{1}[0-9]{1}[0-9]{1}" <%--year--%>
+                    <input type="text" name="birthday" placeholder="00.00.0000"
+                           pattern="([0-2]{1}[0-9]{1}|[3]{1}[01]{1}).([0]{1}[1-9]{1}|[1]{1}[12]{1}).[12]{1}[0-9]{1}[0-9]{1}[0-9]{1}"
                            required="required">
                 </td>
             </tr>
