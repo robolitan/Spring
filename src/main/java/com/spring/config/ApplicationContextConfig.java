@@ -49,14 +49,19 @@ public class ApplicationContextConfig {
         return dataSource;
     }
 
-    @Autowired
-    @Bean(name = "sessionFactory")
-    public SessionFactory getSessionFactory(DataSource dataSource) throws Exception {
+    @Bean(name = "properties")
+    public Properties getProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
         properties.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
         properties.put("current_session_context_class", env.getProperty("current_session_context_class"));
         properties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
+        return properties;
+    }
+
+    @Autowired
+    @Bean(name = "sessionFactory")
+    public SessionFactory getSessionFactory(DataSource dataSource, Properties properties) throws Exception {
 
         LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
         factoryBean.setPackagesToScan(new String[]{"com.spring.models"});
