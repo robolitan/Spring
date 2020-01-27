@@ -9,21 +9,22 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class MainController {
+
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @GetMapping("/all")
     public String getIndex(Model model) {
         model.addAttribute("usersList", userService.getAll());
         return "index";
     }
 
-    @RequestMapping("/add")
+    @GetMapping("/add")
     public String getPage() {
         return "add";
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @PostMapping("/add")
     public String getMessage(@ModelAttribute("add") User user) {
         userService.addUser(user);
         return "redirect:/all";
