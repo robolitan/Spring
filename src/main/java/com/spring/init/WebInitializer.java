@@ -1,4 +1,4 @@
-package com.spring.bootsrap;
+package com.spring.init;
 
 import com.spring.config.ApplicationContextConfig;
 import com.spring.config.WebMvcConfig;
@@ -10,7 +10,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
-public class WebBootstrap implements WebApplicationInitializer {
+public class WebInitializer implements WebApplicationInitializer {
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {

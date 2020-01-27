@@ -1,5 +1,6 @@
 package com.spring.sevices;
 
+import com.spring.dao.UserDao;
 import com.spring.dao.UserDaoImpl;
 import com.spring.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserDaoImpl userDao;
+    private UserDao userDao;
 
     public UserServiceImpl() {
     }
