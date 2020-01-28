@@ -1,10 +1,8 @@
 package com.spring.models;
 
 import org.springframework.security.core.GrantedAuthority;
-
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "roles")
@@ -16,8 +14,7 @@ public class Role implements GrantedAuthority {
 
     @Column(name = "role_name")
     private String name;
-
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))
     private List<User> users;
@@ -53,5 +50,9 @@ public class Role implements GrantedAuthority {
     }
 
     public Role() {
+    }
+
+    public Role(int id, String name) {
+        this.name = name;
     }
 }

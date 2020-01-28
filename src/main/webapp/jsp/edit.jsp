@@ -13,7 +13,7 @@
 <body>
 <div class="conteiner">
     <h1 class="title">Edit user</h1>
-    <form  action="/edit" method="post">
+    <form  action="/admin/edit" method="post">
         <table class="table_01">
             <tr>
                 <th>Login</th>

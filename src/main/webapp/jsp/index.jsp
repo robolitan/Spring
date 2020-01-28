@@ -30,17 +30,17 @@
             <td>${user.lastName}</td>
             <td>${user.birthday}</td>
             <td>
-                <form action="/delete/${user.id}" method="post">
+                <form action="/admin/delete/${user.id}" method="post">
                     <input class="btn" type="submit" value="Delete">
                 </form>
-                <form action="/edit/${user.id}" method="get">
+                <form action="/admin/edit/${user.id}" method="get">
                     <input class="btn" type="submit" value="Edit">
                 </form>
             </td>
         </tr>
         </c:forEach>
     </table>
-    <form action="/add" method="get">
+    <form action="/admin/add" method="get">
         <input class="btn2" type="submit" value="Add">
     </form>
     <h1 class="author">Created by Artem Lambert</h1>

@@ -1,17 +1,14 @@
 package com.spring.dao;
 
+import com.spring.models.Role;
 import com.spring.models.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.ParameterMetadata;
 import org.hibernate.query.Query;
-import org.hibernate.sql.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.client.RestTemplate;
-
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -22,6 +19,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void save(User user) {
         Session session = sessionFactory.getCurrentSession();
+        Role role = (Role) session.get(Role.class, 1);
+        user.setRoles(Collections.singletonList(role));
         session.save(user);
     }
 
@@ -47,11 +46,12 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User getUserByLogin(String login) {
-
-
-
-
-        return null;
+        Session session = sessionFactory.openSession();
+        String HQL = "FROM User WHERE login=:login";
+        Query query = session.createQuery(HQL);
+        query.setParameter("login",login);
+        User userFromDB = (User) query.getSingleResult();
+        return userFromDB;
     }
 
     @Override

@@ -10,7 +10,7 @@
 <body>
 <div class="conteiner">
     <h1 class="title">Add user</h1>
-    <form action="/add" method="post">
+    <form action="/admin/add" method="post">
         <table class="table_01">
             <tr>
                 <td>Login:</td>
