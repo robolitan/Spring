@@ -1,10 +1,11 @@
 package com.spring.dao;
 
 import com.spring.models.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface UserDao {
+public interface UserDao{
     void save(User user);
 
     void delete(int id);
@@ -14,4 +15,6 @@ public interface UserDao {
     User get(int id);
 
     List<User> getAll();
+
+    User getUserByLogin(String login);
 }

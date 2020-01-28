@@ -14,18 +14,19 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/all")
-    public String getIndex(Model model) {
+    public String getPageIndex(Model model) {
         model.addAttribute("usersList", userService.getAll());
         return "index";
     }
 
     @GetMapping("/add")
-    public String getPage() {
+    public String getPageAdd() {
+//        userService.loadUserByUsername("nikerson");
         return "add";
     }
 
     @PostMapping("/add")
-    public String getMessage(@ModelAttribute("add") User user) {
+    public String addUser(@ModelAttribute("add") User user) {
         userService.addUser(user);
         return "redirect:/all";
     }
@@ -37,7 +38,7 @@ public class UserController {
     }
 
     @GetMapping("/edit/{id}")
-    public String getPage(@PathVariable int id, Model model) {
+    public String getPageEdit(@PathVariable int id, Model model) {
         model.addAttribute("user", userService.getUser(id));
         return "edit";
     }

@@ -3,11 +3,15 @@ package com.spring.dao;
 import com.spring.models.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.ParameterMetadata;
 import org.hibernate.query.Query;
+import org.hibernate.sql.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -39,6 +43,15 @@ public class UserDaoImpl implements UserDao {
     public User get(int id) {
         Session session = sessionFactory.getCurrentSession();
         return session.get(User.class, id);
+    }
+
+    @Override
+    public User getUserByLogin(String login) {
+
+
+
+
+        return null;
     }
 
     @Override

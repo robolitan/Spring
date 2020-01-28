@@ -30,8 +30,8 @@ public class ApplicationContextConfig {
     @Bean(name = "viewResolver")
     public InternalResourceViewResolver getViewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("/jsp/");
-        viewResolver.setSuffix(".jsp");
+        viewResolver.setPrefix(env.getProperty("mvc.view.prefix"));
+        viewResolver.setSuffix(env.getProperty("mvc.view.suffix"));
         return viewResolver;
     }
 

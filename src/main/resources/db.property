@@ -1,3 +1,4 @@
+#Hibernate property
 hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
 hibernate.show_sql=true
 hibernate.hbm2ddl.auto=update
@@ -8,3 +9,7 @@ db.driver=com.mysql.cj.jdbc.Driver
 db.url=jdbc:mysql://localhost:1111/db_spring_mvc?serverTimezone=UTC
 db.username=root
 db.password=admin
+
+#MVC View
+mvc.view.prefix = /jsp/
+mvc.view.suffix = .jsp
