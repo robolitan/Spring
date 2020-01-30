@@ -4,6 +4,6 @@
     <title>Error</title>
 </head>
 <body>
-<p>Try another way</p>
+<p>You have not permission for look this page</p>
 </body>
 </html>

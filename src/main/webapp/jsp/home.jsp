@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>HOME PAGE</title>
     <!--    <link rel="stylesheet" href="/css/main_page.css">-->
-    <link href="/css/home.css" rel="stylesheet">
+    <link href="/css/home_page.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Questrial&display=swap" rel="stylesheet">
 </head>

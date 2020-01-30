@@ -20,7 +20,7 @@ public class UserDaoImpl implements UserDao {
     public void save(User user) {
         Session session = sessionFactory.getCurrentSession();
         Role role = (Role) session.get(Role.class, 1);
-        user.setRoles(Collections.singletonList(role));
+        user.setRoles(Collections.singleton(role));
         session.save(user);
     }
 
