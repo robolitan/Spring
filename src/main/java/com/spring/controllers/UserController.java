@@ -1,6 +1,6 @@
 package com.spring.controllers;
 
-import com.spring.sevices.UserService;
+import com.spring.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,11 +24,6 @@ public class UserController {
     @GetMapping("/error")
     public String getPageError(){
         return "error";
-    }
-
-    @GetMapping("**")
-    public String getPageUndef(){
-        return "undef";
     }
 
 }

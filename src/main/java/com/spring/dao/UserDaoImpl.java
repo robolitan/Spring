@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -19,8 +20,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void save(User user) {
         Session session = sessionFactory.getCurrentSession();
-        Role role = (Role) session.get(Role.class, 1);
-        user.setRoles(Collections.singleton(role));
+        user.setRoles(Collections.singleton((Role)session.get(Role.class,1)));
         session.save(user);
     }
 

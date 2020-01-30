@@ -1,6 +1,5 @@
 package com.spring.config;
 
-import com.spring.sevices.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -8,18 +7,19 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
 @EnableWebSecurity
-@ComponentScan("com.spring.sevices")
+@ComponentScan("com.spring.services")
 public class WebSecurityConf extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    UserService userService;
+    UserDetailsService userDetailsService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService);
+        auth.userDetailsService(userDetailsService);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class WebSecurityConf extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/css/*").permitAll()
                     .antMatchers("/login").not().fullyAuthenticated()
-                    .antMatchers("/admin/**").hasAnyRole("ADMIN")
+                    .antMatchers("/admin/**").hasRole("ADMIN")
                     .antMatchers("/home").hasAnyRole("USER","ADMIN")
                     .anyRequest().authenticated()
                 .and()
