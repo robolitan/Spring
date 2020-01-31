@@ -1,11 +1,15 @@
 package com.spring.controllers;
 
+import com.spring.models.Role;
 import com.spring.models.User;
 import com.spring.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 
 @Controller
 public class AdminController {
@@ -16,7 +20,7 @@ public class AdminController {
     @GetMapping("/admin/all")
     public String getPageIndex(Model model, RequestMethod method) {
         model.addAttribute("usersList", userService.getAll());
-        return "index";
+        return "all_user";
     }
 
     @GetMapping("/admin/add")
@@ -38,14 +42,21 @@ public class AdminController {
 
     @GetMapping("/admin/edit/{id}")
     public String getPageEdit(@PathVariable int id, Model model) {
-        model.addAttribute("user", userService.getUser(id));
+        User user = userService.getUser(id);
+        boolean roleAdmin = user.getRoles().stream().anyMatch(n -> n.getName().equals("ROLE_ADMIN"));
+        model.addAttribute("user", user);
+        model.addAttribute("admin", roleAdmin);
         return "edit";
     }
 
     @PostMapping("/admin/edit")
-    public String editUser(@ModelAttribute User user) {
+    public String editUser(@ModelAttribute User user, HttpServletRequest request) {
+        if (request.getParameter("isAdmin") != null) {
+            user.setRoles(Collections.singleton(new Role(2, "ROLE_ADMIN")));
+        } else {
+            user.setRoles(Collections.emptySet());
+        }
         userService.editUser(user);
         return "redirect:/admin/all";
     }
-
 }

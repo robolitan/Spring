@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -24,7 +25,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void save(User user) {
         Session session = sessionFactory.getCurrentSession();
-        user.setRoles(Collections.singleton((Role)session.get(Role.class,1)));
+        user.setRoles(Collections.singleton((Role) session.get(Role.class, 1)));
         user.setPassword(encoder.encode(user.getPassword()));
         session.persist(user);
     }
@@ -39,7 +40,15 @@ public class UserDaoImpl implements UserDao {
     public void update(User user) {
         Session session = sessionFactory.getCurrentSession();
         User userById = session.get(User.class, user.getId());
+        Set<Role> setOfRoles = userById.getRoles();
+        Role roleAdmin = session.get(Role.class, 2);
         user.setPassword(userById.getPassword());
+        if (!user.getRoles().isEmpty() && !userById.getRoles().contains(roleAdmin)) {
+            setOfRoles.add(roleAdmin);
+        } else {
+            setOfRoles.remove(roleAdmin);
+        }
+        user.setRoles(setOfRoles);
         session.merge(user);
     }
 
@@ -54,7 +63,7 @@ public class UserDaoImpl implements UserDao {
         Session session = sessionFactory.openSession();
         String HQL = "FROM User WHERE login=:login";
         Query query = session.createQuery(HQL);
-        query.setParameter("login",login);
+        query.setParameter("login", login);
         User userFromDB = (User) query.getSingleResult();
         return userFromDB;
     }

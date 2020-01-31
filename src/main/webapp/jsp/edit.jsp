@@ -20,6 +20,7 @@
                 <th>F. name</th>
                 <th>L. name</th>
                 <th>Birthday</th>
+                <th>admin</th>
             </tr>
             <tr>
                 <td>
@@ -36,6 +37,17 @@
                     <input type="text" value="${user.birthday}" name="birthday"
                            pattern="([0-2]{1}[0-9]{1}|[3]{1}[01]{1}).([0]{1}[1-9]{1}|[1]{1}[012]{1}).[12]{1}[0-9]{1}[0-9]{1}[0-9]{1}"
                            placeholder="00.00.0000" required="required">
+                </td>
+                <td>
+                    <input type="checkbox" id = "checkbox" name="isAdmin" value="${admin}">
+                    <script type="text/javascript">
+                           var chkBox = document.getElementById("checkbox")
+                           if(chkBox.value == "true"){
+                               chkBox.checked = true
+                           }else {
+                               chkBox.checked = false;
+                           }
+                    </script>
                 </td>
             </tr>
         </table>

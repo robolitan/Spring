@@ -32,12 +32,12 @@ public class WebSecurityConf extends WebSecurityConfigurerAdapter {
         http
                 .csrf()
                 .disable()
-                .authorizeRequests().anyRequest().permitAll()
-                    /*.antMatchers("/css/*").permitAll()
+                .authorizeRequests()
+                    .antMatchers("/css/*").permitAll()
                     .antMatchers("/login").not().fullyAuthenticated()
                     .antMatchers("/admin/**").hasRole("ADMIN")
                     .antMatchers("/home").hasAnyRole("USER","ADMIN")
-                    .anyRequest().authenticated()*/
+                    .anyRequest().authenticated()
                 .and()
                     .formLogin()
                     .defaultSuccessUrl("/home")
@@ -50,6 +50,4 @@ public class WebSecurityConf extends WebSecurityConfigurerAdapter {
                     .exceptionHandling()
                     .accessDeniedPage("/error");
     }
-
-
 }
