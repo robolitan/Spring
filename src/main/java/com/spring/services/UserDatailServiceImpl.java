@@ -17,16 +17,14 @@ public class UserDatailServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private PasswordEncoder encoder;
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
         User userFromDB = userDao.getUserByLogin(login);
-        UserDetails userD = org.springframework.security.core.userdetails.User
-                .withUsername(userFromDB.getLogin())
-                .password(encoder.encode(userFromDB.getPassword()))
-                .authorities(userFromDB.getAuthorities()).build();
-        return userD;
+        userFromDB.setPassword(encoder.encode(userFromDB.getPassword()));
+       return userFromDB;
     }
 }
