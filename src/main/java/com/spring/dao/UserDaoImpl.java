@@ -26,7 +26,7 @@ public class UserDaoImpl implements UserDao {
         Session session = sessionFactory.getCurrentSession();
         user.setRoles(Collections.singleton((Role)session.get(Role.class,1)));
         user.setPassword(encoder.encode(user.getPassword()));
-        session.save(user);
+        session.persist(user);
     }
 
     @Override
