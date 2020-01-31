@@ -3,6 +3,10 @@ package com.spring.init;
 import com.spring.config.ApplicationContextConfig;
 import com.spring.config.WebMvcConfig;
 import com.spring.config.WebSecurityConf;
+import com.spring.dao.UserDao;
+import com.spring.models.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -10,6 +14,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
+
 
 public class WebAppInitializer implements WebApplicationInitializer {
 

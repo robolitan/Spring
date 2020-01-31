@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
@@ -17,10 +18,14 @@ public class UserDaoImpl implements UserDao {
     @Autowired
     SessionFactory sessionFactory;
 
+    @Autowired
+    PasswordEncoder encoder;
+
     @Override
     public void save(User user) {
         Session session = sessionFactory.getCurrentSession();
         user.setRoles(Collections.singleton((Role)session.get(Role.class,1)));
+        user.setPassword(encoder.encode(user.getPassword()));
         session.save(user);
     }
 

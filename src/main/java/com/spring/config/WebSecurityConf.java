@@ -24,7 +24,7 @@ public class WebSecurityConf extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
+        auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
     }
 
     @Override
@@ -50,4 +50,6 @@ public class WebSecurityConf extends WebSecurityConfigurerAdapter {
                     .exceptionHandling()
                     .accessDeniedPage("/error");
     }
+
+
 }
