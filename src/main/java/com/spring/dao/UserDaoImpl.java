@@ -3,12 +3,12 @@ package com.spring.dao;
 import com.spring.models.Role;
 import com.spring.models.User;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -17,14 +17,18 @@ import java.util.Set;
 public class UserDaoImpl implements UserDao {
 
     @Autowired
-    SessionFactory sessionFactory;
+    private EntityManager entityManager;
+
+    private Session getSession() {
+        return entityManager.unwrap(Session.class);
+    }
 
     @Autowired
     PasswordEncoder encoder;
 
     @Override
     public void save(User user) {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = getSession();
         user.setRoles(Collections.singleton((Role) session.get(Role.class, 1)));
         user.setPassword(encoder.encode(user.getPassword()));
         session.persist(user);
@@ -32,13 +36,13 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void delete(int id) {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = getSession();
         session.delete(session.get(User.class, id));
     }
 
     @Override
     public void update(User user) {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = getSession();
         User userById = session.get(User.class, user.getId());
         Set<Role> setOfRoles = userById.getRoles();
         Role roleAdmin = session.get(Role.class, 2);
@@ -54,13 +58,13 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User get(int id) {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = getSession();
         return session.get(User.class, id);
     }
 
     @Override
     public User getUserByLogin(String login) {
-        Session session = sessionFactory.openSession();
+        Session session = getSession();
         String HQL = "FROM User WHERE login=:login";
         Query query = session.createQuery(HQL);
         query.setParameter("login", login);
@@ -70,7 +74,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getAll() {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = getSession();
         Query q = session.createQuery("From User");
         List<User> list = q.getResultList();
         return list;

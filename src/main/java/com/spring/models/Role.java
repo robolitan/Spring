@@ -3,7 +3,7 @@ package com.spring.models;
 import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "Role")
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
 
