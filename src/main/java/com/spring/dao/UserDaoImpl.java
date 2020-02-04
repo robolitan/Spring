@@ -19,33 +19,22 @@ public class UserDaoImpl implements UserDao {
     @Autowired
     private EntityManager entityManager;
 
-    private Session getSession() {
-        return entityManager.unwrap(Session.class);
-    }
-
-    @Autowired
-    PasswordEncoder encoder;
-
     @Override
     public void save(User user) {
-        Session session = getSession();
-        user.setRoles(Collections.singleton((Role) session.get(Role.class, 1)));
-        user.setPassword(encoder.encode(user.getPassword()));
-        session.persist(user);
+        user.setRoles(Collections.singleton((Role) entityManager.find(Role.class, 1)));
+        entityManager.persist(user);
     }
 
     @Override
     public void delete(int id) {
-        Session session = getSession();
-        session.delete(session.get(User.class, id));
+        entityManager.remove(entityManager.find(User.class, id));
     }
 
     @Override
     public void update(User user) {
-        Session session = getSession();
-        User userById = session.get(User.class, user.getId());
+        User userById = entityManager.find(User.class, user.getId());
         Set<Role> setOfRoles = userById.getRoles();
-        Role roleAdmin = session.get(Role.class, 2);
+        Role roleAdmin = entityManager.find(Role.class, 2);
         user.setPassword(userById.getPassword());
         if (!user.getRoles().isEmpty() && !userById.getRoles().contains(roleAdmin)) {
             setOfRoles.add(roleAdmin);
@@ -53,20 +42,18 @@ public class UserDaoImpl implements UserDao {
             setOfRoles.remove(roleAdmin);
         }
         user.setRoles(setOfRoles);
-        session.merge(user);
+        entityManager.merge(user);
     }
 
     @Override
     public User get(int id) {
-        Session session = getSession();
-        return session.get(User.class, id);
+        return entityManager.find(User.class, id);
     }
 
     @Override
     public User getUserByLogin(String login) {
-        Session session = getSession();
         String HQL = "FROM User WHERE login=:login";
-        Query query = session.createQuery(HQL);
+        Query query = (Query) entityManager.createQuery(HQL);
         query.setParameter("login", login);
         User userFromDB = (User) query.getSingleResult();
         return userFromDB;
@@ -74,9 +61,8 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getAll() {
-        Session session = getSession();
-        Query q = session.createQuery("From User");
-        List<User> list = q.getResultList();
+        String HQL = "FROM User";
+        List<User> list = entityManager.createQuery(HQL).getResultList();
         return list;
     }
 }
