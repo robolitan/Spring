@@ -1,6 +1,8 @@
 package com.spring.services;
 
+import com.spring.dao.RoleDao;
 import com.spring.dao.UserDao;
+import com.spring.models.Role;
 import com.spring.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +17,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private RoleDao roleDao;
 
     @Autowired
     PasswordEncoder encoder;
@@ -43,6 +48,15 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void editUser(User user) {
+        User userById = userDao.get(user.getId());
+        Role roleAdmin = roleDao.get(2);
+        if (user.getRoles().isEmpty()) {
+            userById.getRoles().remove(roleAdmin);
+        }else {
+            userById.getRoles().add(roleAdmin);
+        }
+        user.setPassword(userById.getPassword());
+        user.setRoles(userById.getRoles());
         userDao.update(user);
     }
 

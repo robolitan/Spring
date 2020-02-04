@@ -32,16 +32,6 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void update(User user) {
-        User userById = entityManager.find(User.class, user.getId());
-        Set<Role> setOfRoles = userById.getRoles();
-        Role roleAdmin = entityManager.find(Role.class, 2);
-        user.setPassword(userById.getPassword());
-        if (!user.getRoles().isEmpty() && !userById.getRoles().contains(roleAdmin)) {
-            setOfRoles.add(roleAdmin);
-        } else {
-            setOfRoles.remove(roleAdmin);
-        }
-        user.setRoles(setOfRoles);
         entityManager.merge(user);
     }
 
