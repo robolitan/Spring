@@ -2,7 +2,6 @@ package com.spring.dao;
 
 import com.spring.models.Role;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.EntityManager;
 
 public class RoleDaoImpl implements RoleDao {
