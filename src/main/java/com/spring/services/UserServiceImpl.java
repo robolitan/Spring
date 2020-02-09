@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional
@@ -48,15 +48,6 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void editUser(User user) {
-        User userById = userDao.get(user.getId());
-        Role roleAdmin = roleDao.get(2);
-        if (user.getRoles().isEmpty()) {
-            userById.getRoles().remove(roleAdmin);
-        }else {
-            userById.getRoles().add(roleAdmin);
-        }
-        user.setPassword(userById.getPassword());
-        user.setRoles(userById.getRoles());
         userDao.update(user);
     }
 
@@ -64,6 +55,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void addUser(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
+        user.setRoles(Collections.singletonList((Role) roleDao.get(1)));
         userDao.save(user);
     }
 }

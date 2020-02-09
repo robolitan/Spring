@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -37,19 +37,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/css/*").permitAll()
                     .antMatchers("/login").not().fullyAuthenticated()
-                    .antMatchers("/admin/**").hasRole("ADMIN")
-                    .antMatchers("/home").hasAnyRole("USER","ADMIN")
+                    .antMatchers("/admin").hasRole("ADMIN")
+                    .antMatchers("/user").hasAnyRole("USER","ADMIN")
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
-                    .defaultSuccessUrl("/home")
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/user")
+                    .failureUrl("/login")
                     .permitAll()
                 .and()
                      .logout()
+                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                     .logoutSuccessUrl("/login")
                      .permitAll()
-                .logoutSuccessUrl("/")
-                .and()
+                /*.and()
                     .exceptionHandling()
-                    .accessDeniedPage("/error");
+                    .accessDeniedPage("/error");*/;
     }
 }

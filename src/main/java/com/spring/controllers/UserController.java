@@ -16,14 +16,9 @@ public class UserController {
         return "login";
     }
 
-    @GetMapping("/home")
+    @GetMapping("/user")
     public String getPageHome(){
-        return "home";
-    }
-
-    @GetMapping("/error")
-    public String getPageError(){
-        return "error";
+        return "user";
     }
 
 }
