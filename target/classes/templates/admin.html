@@ -1,0 +1,253 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="../static/addit_style.css" th:href="@{../static/addit_style.css}" rel="stylesheet">
+    <title>Admin page</title>
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <div class="navbar-brand" style="color: #e9e9e5">Spring Boot</div>
+        <div>
+            <form th:action="@{/logout}" method="post" id="logoutForm" name="logoutForm">
+                <a type="submit" style="color: #e9e9e5" id="aSendForm" onclick="sub()">logout</a>
+            </form>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid d-block" style="background-color: #dddddd">
+    <div class="row vh-100">
+        <nav class="col-2 sidebar m-0 p-0" style="background-color:rgba(236,236,236,1)">
+            <div class="sidebar-sticky d-block">
+                <br>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/admin">Admin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user">User</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="col-10 d-block px-4">
+            <h1 class="my-3">Admin panel</h1>
+            <ul class="nav nav-tabs mt-2">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#users_table" data-toggle="tab" role="tab">All users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#new_user" data-toggle="tab" role="tab">New user</a>
+                </li>
+            </ul>
+            <div class="container-fluid d-block bg-white p-0">
+                <div class="tab-content shadow">
+                    <div role="tabpanel" class="tab-pane active" id="users_table">
+                        <nav class="navbar navbar-dark" style="background-color: rgba(165,165,165,1)">
+                            <div class="container-fluid">
+                                <div class="navbar-brand" style="color: black">All user</div>
+                            </div>
+                        </nav>
+                        <table class="table table-hover bg-white">
+                            <tr class="text-mx-center">
+                                <th>ID</th>
+                                <th>Login</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Birthday</th>
+                                <th class="text-center">action</th>
+                            </tr>
+                            <tbody>
+                            <tr class="text-mx-center" th:each="userCurr : ${usersList}">
+                                <th th:text="${userCurr.id}"></th>
+                                <td th:text="${userCurr.login}"></td>
+                                <td th:text="${userCurr.firstName}"></td>
+                                <td th:text="${userCurr.lastName}"></td>
+                                <td th:text="${userCurr.birthday}"></td>
+                                <td class="text-center">
+                                    <div class="buttons-group">
+                                        <button type="button" class="btn btn-info" data-toggle="modal"
+                                                th:attr="data-target='#modal'+${userCurrStat.current.id}">Edit
+                                        </button>
+                                        <span>
+                                            <form th:action="@{/admin/delete/{idUser} (idUser = ${userCurr.id})}"
+                                                  method="post"
+                                                  name="deleteForm" id="deleteForm">
+                                                <button type="submit" class="btn btn-info">Delete
+                                                </button>
+                                            </form>
+                                        </span>
+                                    </div>
+                                    <div class="modal" th:id="'modal'+${userCurrStat.current.id}" role="dialog"
+                                         aria-labelledby="modalLabel" aria-hidden="false">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalLabel"
+                                                        th:text="'Edit user - '+${userCurr.login}"></h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form class="col-7 p-2 text-center m-auto bg-white rounded-bottom"
+                                                          action="#"
+                                                          th:action="@{/admin/edit/}" method="post" th:object="${user}">
+                                                        <div class="form-group">
+                                                            <input type="text" th:value="${userCurr.id}" name="id"
+                                                                   hidden>
+                                                            <label class="font-weight-bold" for="login">Login</label>
+                                                            <input type="text" class="form-control"
+                                                                   th:value="${userCurr.login}" id="login" name="login"
+                                                                   placeholder="Login"
+                                                                   required>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="font-weight-bold"
+                                                                   for="firstName">F.Name</label>
+                                                            <input type="text" class="form-control"
+                                                                   th:value="${userCurr.firstName}" id="firstName"
+                                                                   name="firstName"
+                                                                   placeholder="First name"
+                                                                   required>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="font-weight-bold"
+                                                                   for="lastName">F.Name</label>
+                                                            <input type="text" class="form-control"
+                                                                   th:value="${userCurr.lastName}" id="lastName"
+                                                                   name="lastName"
+                                                                   placeholder="Last name">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="font-weight-bold"
+                                                                   for="birthday">Birthday</label>
+                                                            <input type="text" class="form-control"
+                                                                   th:value="${userCurr.birthday}" id="birthday"
+                                                                   name="birthday"
+                                                                   placeholder="Your birthday : 00.00.0000"
+                                                                   pattern="([0-2]{1}[0-9]{1}|[3]{1}[01]{1}).([0]{1}[1-9]{1}|[1]{1}[012]{1}).[12]{1}[0-9]{1}[0-9]{1}[0-9]{1}"
+                                                                   required>
+                                                        </div>
+                                                        <div class="form-group" hidden>
+                                                            <label class="font-weight-bold"
+                                                                   for="password">Password</label>
+                                                            <input type="password" class="form-control"
+                                                                   th:value="${userCurr.password}" id="password"
+                                                                   name="password">
+                                                        </div>
+                                                        <div class="form-group" hidden>
+                                                            <table>
+                                                                <tr th:each="role : ${userCurr.getRoles()}">
+                                                                    <td>
+                                                                        <input th:name="'roles['+ ${roleStat.index} +'].id'"
+                                                                               th:value="${userCurr.roles[__${roleStat.index}__].id}">
+                                                                    </td>
+                                                                    <td>
+                                                                        <input th:name="'roles['+ ${roleStat.index} +'].name'"
+                                                                               th:value="${userCurr.roles[__${roleStat.index}__].name}">
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="font-weight-bold">Role</label>
+                                                            <input type="text" class="form-control"
+                                                                   name="isAdmin"
+                                                                   th:value="admin"
+                                                                   placeholder="Role (user or admin)"
+                                                                   required th:if="${userCurr.roles.size()} > 1" pattern="([uU]ser)|([Aa]dmin)">
+                                                            <input type="text" class="form-control"
+                                                                   name="isAdmin"
+                                                                   th:value="user"
+                                                                   placeholder="Role (user or admin)"
+                                                                   required th:if="${userCurr.roles.size()} < 2" pattern="([uU]ser)|([Aa]dmin)">
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">
+                                                                Close
+                                                            </button>
+                                                            <button type="submit" class="btn btn-primary">Save changes
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="new_user">
+                        <nav class="navbar" style="background-color:  rgba(165,165,165,1)">
+                            <div class="container-fluid">
+                                <div class="navbar-brand rounded-top" style="color: black">New user</div>
+                            </div>
+                        </nav>
+                        <form class="col-4 p-2 text-center m-auto bg-white rounded-bottom"
+                              th:action="@{/admin/add}" action="/admin/add" method="post">
+                            <div class="form-group">
+                                <label class="font-weight-bold" for="login">Login</label>
+                                <input type="text" class="form-control" name="login" placeholder="Login"
+                                       required>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold" for="firstName">F.Name</label>
+                                <input type="text" class="form-control" name="firstName"
+                                       placeholder="First name"
+                                       required>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold" for="lastName">F.Name</label>
+                                <input type="text" class="form-control" name="lastName"
+                                       placeholder="Last name">
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold" for="birthday">Birthday</label>
+                                <input type="text" class="form-control" name="birthday"
+                                       placeholder="Your birthday : 00.00.0000"
+                                       pattern="([0-2]{1}[0-9]{1}|[3]{1}[01]{1}).([0]{1}[1-9]{1}|[1]{1}[012]{1}).[12]{1}[0-9]{1}[0-9]{1}[0-9]{1}"
+                                       required>
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold" for="password">Password</label>
+                                <input type="password" class="form-control" name="password"
+                                       placeholder="Password"
+                                       required>
+                            </div>
+                            <div class="form-group">
+                                <input class="btn btn-success" type="submit" value="Add new user">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function sub() {
+        document.forms["logoutForm"].submit();
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+</html>

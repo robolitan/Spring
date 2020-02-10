@@ -1,0 +1,15 @@
+com\spring\services\UserService.class
+com\spring\controllers\AdminController.class
+com\spring\config\WebSecurityConfig.class
+com\spring\dao\UserDaoImpl.class
+com\spring\dao\UserDao.class
+com\spring\config\WebMvcConfig.class
+com\spring\models\Role.class
+com\spring\services\UserDetailServiceImpl.class
+com\spring\main\Application.class
+com\spring\models\User.class
+com\spring\controllers\UserController.class
+com\spring\config\BeanConfig.class
+com\spring\dao\RoleDaoImpl.class
+com\spring\services\UserServiceImpl.class
+com\spring\dao\RoleDao.class
