@@ -17,6 +17,7 @@ public class AdminController {
     @Autowired
     UserService userService;
 
+
     @GetMapping("/admin")
     public String getPageIndex(Model model) {
         model.addAttribute("usersList", userService.getAll());

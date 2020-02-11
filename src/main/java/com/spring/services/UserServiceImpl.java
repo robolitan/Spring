@@ -16,46 +16,39 @@ import java.util.*;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserDao userDao;
-
-    @Autowired
-    private RoleDao roleDao;
+    UserDao userDao;
 
     @Autowired
     PasswordEncoder encoder;
+
+    @Autowired
+    RoleDao roleDao;
 
     public UserServiceImpl() {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<User> getAll() {
-        return userDao.getAll();
+        ArrayList<User> list = new ArrayList<>();
+        Iterable<User> users = userDao.findAll();
+        users.forEach(list::add);
+        return list;
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public User getUser(int id) {
-        return userDao.get(id);
-    }
-
-    @Override
-    @Transactional
-    public void deleteUser(int id) {
-        userDao.delete(id);
-    }
-
-    @Override
-    @Transactional
-    public void editUser(User user) {
-        userDao.update(user);
-    }
-
-    @Override
-    @Transactional
     public void addUser(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
-        user.setRoles(Collections.singletonList((Role) roleDao.get(1)));
+        user.setRoles(Collections.singletonList(roleDao.findById(1).orElse(new Role(0,"undef"))));
         userDao.save(user);
+    }
+
+    @Override
+    public void editUser(User user) {
+        userDao.save(user);
+    }
+
+    @Override
+    public void deleteUser(int id) {
+        userDao.deleteById(id);
     }
 }

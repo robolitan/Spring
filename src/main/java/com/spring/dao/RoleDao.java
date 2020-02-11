@@ -1,7 +1,11 @@
 package com.spring.dao;
 
 import com.spring.models.Role;
+import org.springframework.data.repository.CrudRepository;
 
-public interface RoleDao {
-    Role get(int i);
+import java.util.Optional;
+
+public interface RoleDao extends CrudRepository<Role,Integer> {
+    @Override
+    Optional<Role> findById(Integer integer);
 }
