@@ -15,7 +15,7 @@ $(document).ready(function () {
                     <td> ${this.lastName} </td>
                     <td> ${this.birthday} </td>
                     <td>
-                    <div class="buttons-group">
+                    <div class="buttons-group text-center">
                         <button id="modal_edit_btn" type="button" class="btn btn-info" data-toggle="modal" user-id="${this.id}">Edit</button>
                         <span>
                             <button id="delete_user_btn" type="button" class="btn btn-info" user-id="${this.id}">Delete</button>
@@ -139,7 +139,14 @@ $('#editUserForm').on('submit', function (e) {
         data: JSON.stringify(data),
         dataType: 'json',
         contentType: "application/json",
-        success: (e) => {location.reload()},
+        success: (e) => {
+           var col =  $('.tr-' + e.data.id + ' td');
+           col[0].innerText = e.data.login;
+           col[1].innerText = e.data.firstName;
+           col[2].innerText = e.data.lastName;
+           col[3].innerText = e.data.birthday;
+           $('#modal_edit').hide();
+        },
         error: (e) => console.log(e, "some error")
     })
 });

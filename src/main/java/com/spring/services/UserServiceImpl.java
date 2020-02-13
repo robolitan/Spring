@@ -37,13 +37,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(int id) {
-       return userDao.findById(id).orElse(new User());
+        return userDao.findById(id).orElse(new User());
     }
 
     @Override
     public void addUser(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
-        user.setRoles(Collections.singleton(roleDao.findById(1).orElse(new Role(0,"undef"))));
+        user.setRoles(Collections.singleton(roleDao.findById(1).orElse(new Role(0, "undef"))));
         userDao.save(user);
     }
 

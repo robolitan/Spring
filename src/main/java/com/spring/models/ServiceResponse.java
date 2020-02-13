@@ -1,6 +1,6 @@
 package com.spring.models;
 
-public class ServiceResponse <T> {
+public class ServiceResponse<T> {
     private String status;
     private T data;
 

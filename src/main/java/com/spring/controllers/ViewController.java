@@ -14,12 +14,12 @@ public class ViewController {
     UserService userService;
 
     @GetMapping("/login")
-    public String getPageLogin(){
+    public String getPageLogin() {
         return "login";
     }
 
     @GetMapping("/user")
-    public String getPageHome(){
+    public String getPageHome() {
         return "user";
     }
 
