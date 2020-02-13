@@ -87,6 +87,10 @@ $(document).on('click', '#modal_edit_btn', function (e) {
     });
 });
 
+$('#sendLogoutForm').on('click',function () {
+    document.forms["logoutForm"].submit();
+});
+
 $('#addUserForm').on('submit', function (e) {
     e.preventDefault();
     var data = {};

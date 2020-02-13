@@ -5,7 +5,6 @@ $(document).ready(function () {
         url: "/admin/users",
         dataType: 'json',
         success: function (result) {
-            console.log("SUCCESS: ", result);
             var html;
             $.each(result.data, function () {
                 html = `<tr class="text-mx-center tr-${this.id}">
@@ -45,7 +44,7 @@ $(document).on('click', '#delete_user_btn', function () {
             $('.tr-' + e.data).remove()
         },
         error: (e) => {
-            console.log(e, "some error")
+            console.log("ERROR: ", e);
         }
     })
 });
@@ -74,16 +73,22 @@ $(document).on('click', '#modal_edit_btn', function (e) {
             $('#roles').children().remove();
             $('#checkbox').prop('checked', false);
             $.each($(user.roles), function (index, value) {
-                $('#roles').append('<role class ="role"><input name="role_id" value="'+ value.id +'">' +
-                    '<input name="role_name" value="'+ value.name+'"></role>');
-                if(value.name == 'ROLE_ADMIN'){
+                $('#roles').append('<role class ="role"><input name="role_id" value="' + value.id + '">' +
+                    '<input name="role_name" value="' + value.name + '"></role>');
+                if (value.name == 'ROLE_ADMIN') {
                     $('#checkbox').prop('checked', true);
                 }
             });
             modal.modal('show');
         },
-        error: (e) => console.log(e, "some error")
+        error: (e) => {
+            console.log("ERROR: ", e)
+        }
     });
+});
+
+$('#sendLogoutForm').on('click',function () {
+    document.forms["logoutForm"].submit();
 });
 
 $('#addUserForm').on('submit', function (e) {
@@ -105,7 +110,7 @@ $('#addUserForm').on('submit', function (e) {
             location.reload();
         },
         error: (e) => {
-            console.log(e)
+            console.log("ERROR: ", e)
         }
     })
 });
@@ -116,7 +121,7 @@ $('#editUserForm').on('submit', function (e) {
     var roles = [];
     var role = {};
     $('.role').children().each(function (index) {
-        if(this.name == 'role_id'){
+        if (this.name == 'role_id') {
             role['id'] = $(this).val();
         } else {
             role['name'] = $(this).val();
@@ -132,7 +137,7 @@ $('#editUserForm').on('submit', function (e) {
     data['birthday'] = $('#birthdayModal').val();
     data['password'] = $('#passwordModal').val();
     data['roles'] = roles;
-    data['isAdmin'] = $('#checkbox').is(':checked')?'1':'0';
+    data['isAdmin'] = $('#checkbox').is(':checked') ? '1' : '0';
     $.ajax({
         type: 'POST',
         url: '/admin/edit',
@@ -140,13 +145,15 @@ $('#editUserForm').on('submit', function (e) {
         dataType: 'json',
         contentType: "application/json",
         success: (e) => {
-           var col =  $('.tr-' + e.data.id + ' td');
-           col[0].innerText = e.data.login;
-           col[1].innerText = e.data.firstName;
-           col[2].innerText = e.data.lastName;
-           col[3].innerText = e.data.birthday;
-           $('#modal_edit').hide();
+            var col = $('.tr-' + e.data.id + ' td');
+            col[0].innerText = e.data.login;
+            col[1].innerText = e.data.firstName;
+            col[2].innerText = e.data.lastName;
+            col[3].innerText = e.data.birthday;
+            $('#modal_edit').modal('hide');
         },
-        error: (e) => console.log(e, "some error")
+        error: (e) => {
+            console.log("ERROR: ", e)
+        }
     })
 });
