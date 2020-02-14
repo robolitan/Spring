@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -9,7 +9,7 @@
 <body class="text-center" style="background-color: #ddddd9">
 <div class="container-fluid w-25 mt-5">
     <div class="col-12">
-        <form role="form" class="form" th:action="@{/login}" method="post">
+        <form role="form" class="form"action="/login" method="post">
             <h4 class="text-left">Please, sign in</h4>
             <div class="form-group m-0">
                 <input type="text" class="form-control" id="username"  name="username" placeholder="Login" autofocus>

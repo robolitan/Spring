@@ -2,7 +2,6 @@ package com.spring.controllers;
 
 import com.spring.models.Role;
 import com.spring.models.SearchCriteria;
-import com.spring.models.ServiceResponse;
 import com.spring.models.User;
 import com.spring.services.UserService;
 
@@ -12,50 +11,46 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
 @RestController
+@RequestMapping("api/admin")
 public class AdminRestController {
 
     @Autowired
     UserService userService;
 
-    @GetMapping("/admin/users")
-    public ResponseEntity<Object> getUsers() {
+    @GetMapping(path = "users")
+    public ResponseEntity users() {
         List<User> list = userService.getAll();
-        ServiceResponse<List<User>> response = new ServiceResponse<>("success", list);
-        return new ResponseEntity<Object>(response, HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(list);
     }
 
-    @PostMapping("/admin/add")
-    public ResponseEntity<Object> addNewUser(@RequestBody User user) throws IOException {
+    @PostMapping("add")
+    public ResponseEntity add(@RequestBody User user) throws IOException {
         userService.addUser(user);
-        return new ResponseEntity<>(new ServiceResponse("success", null), HttpStatus.OK);
+        return  ResponseEntity.status(HttpStatus.OK).body(userService.getUserByLogin(user.getLogin()));
     }
 
-    @PostMapping("/admin/delete")
-    public ResponseEntity<Object> deleteUser(@RequestBody SearchCriteria criteria) {
-        userService.deleteUser(criteria.getId());
-        ServiceResponse resp = new ServiceResponse("success", criteria.getId());
-        return new ResponseEntity<Object>(resp, HttpStatus.OK);
+    @DeleteMapping("{id}")
+    public ResponseEntity delete(@PathVariable("id") Integer id) {
+        userService.deleteUser(id);
+        return ResponseEntity.status(HttpStatus.OK).body(id);
     }
 
-    @GetMapping("/admin/user")
-    public ResponseEntity<Object> getUserForEdit(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        ServiceResponse resp = new ServiceResponse<User>("success",
-                userService.getUser(Integer.parseInt(request.getParameter("id"))));
-        return new ResponseEntity<Object>(resp, HttpStatus.OK);
+    @GetMapping("{id}")
+    public ResponseEntity user(@PathVariable("id") Integer id) throws IOException {
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(userService.getUser(id));
     }
 
-    @PostMapping("/admin/edit")
-    public ResponseEntity<Object> editUser(@RequestBody SearchCriteria criteria) {
+    @PostMapping("/edit")
+    public ResponseEntity edit(@RequestBody SearchCriteria criteria) {
         User user = getUserParseCriteria(criteria);
         userService.editUser(user);
-        ServiceResponse resp = new ServiceResponse("success", user);
-        return new ResponseEntity<Object>(resp, HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(user);
     }
 
     private User getUserParseCriteria(SearchCriteria criteria) {

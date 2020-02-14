@@ -2,11 +2,11 @@ $(document).ready(function () {
     $.ajax({
         type: "GET",
         contentType: "application/json",
-        url: "/admin/users",
+        url: "api/admin/users",
         dataType: 'json',
-        success: function (result) {
+        success: function (userList) {
             var html;
-            $.each(result.data, function () {
+            $.each(userList, function () {
                 html = `<tr class="text-mx-center tr-${this.id}">
                     <th> ${this.id} </th>
                     <td> ${this.login} </td>
@@ -32,16 +32,16 @@ $(document).ready(function () {
 });
 
 $(document).on('click', '#delete_user_btn', function () {
+
     var data = {};
     data['id'] = $(this).attr('user-id');
     $.ajax({
-        type: "POST",
-        url: '/admin/delete/',
-        data: JSON.stringify(data),
+        type: "DELETE",
+        url: 'api/admin/' + $(this).attr('user-id'),
         contentType: "application/json",
         dataType: 'json',
         success: (e) => {
-            $('.tr-' + e.data).remove()
+            $('.tr-' + data['id']).remove()
         },
         error: (e) => {
             console.log("ERROR: ", e);
@@ -54,14 +54,12 @@ $(document).on('click', '#modal_edit_btn', function (e) {
     data['id'] = $(this).attr('user-id');
     $.ajax({
         type: "GET",
-        url: '/admin/user',
-        data: {id: $(this).attr('user-id')},
+        url: 'api/admin/' + $(this).attr('user-id'),
         contentType: "application/json",
         dataType: 'json',
         success: (result) => {
-            console.log('in function ajaxGetUser');
             var modal = $('#modal_edit');
-            var user = result.data;
+            var user = result;
             $('.modal-title').html('<h5 class="modal-title" id="modalLabel">Edit user - ' + user.login + '</h5>');
             $('#idModal').val(user.id);
             $('#loginModal').val(user.login);
@@ -102,12 +100,13 @@ $('#addUserForm').on('submit', function (e) {
 
     $.ajax({
         type: 'POST',
-        url: '/admin/add',
+        url: 'api/admin/add',
         data: JSON.stringify(data),
         dataType: 'json',
         contentType: "application/json",
-        success: (e) => {
-            location.reload();
+        success: (e)=>{
+            console.log("SUCCESS: ");
+            location.reload()
         },
         error: (e) => {
             console.log("ERROR: ", e)
@@ -129,7 +128,6 @@ $('#editUserForm').on('submit', function (e) {
             role = {};
         }
     });
-    console.log(roles);
     data['id'] = $('#idModal').val();
     data['login'] = $('#loginModal').val();
     data['firstName'] = $('#firstNameModal').val();
@@ -140,16 +138,16 @@ $('#editUserForm').on('submit', function (e) {
     data['isAdmin'] = $('#checkbox').is(':checked') ? '1' : '0';
     $.ajax({
         type: 'POST',
-        url: '/admin/edit',
+        url: 'api/admin/edit',
         data: JSON.stringify(data),
         dataType: 'json',
         contentType: "application/json",
-        success: (e) => {
-            var col = $('.tr-' + e.data.id + ' td');
-            col[0].innerText = e.data.login;
-            col[1].innerText = e.data.firstName;
-            col[2].innerText = e.data.lastName;
-            col[3].innerText = e.data.birthday;
+        success: (user) => {
+            var col = $('.tr-' + user.id + ' td');
+            col[0].innerText = user.login;
+            col[1].innerText = user.firstName;
+            col[2].innerText = user.lastName;
+            col[3].innerText = user.birthday;
             $('#modal_edit').modal('hide');
         },
         error: (e) => {
